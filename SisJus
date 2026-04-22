@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justiça RP - Sistema de Processos</title>
+    <style>
+        body { background: #060a12; color: #d4c9b0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: #0d1726; padding: 30px; border-top: 4px solid #c9a84c; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { color: #c9a84c; text-align: center; text-transform: uppercase; letter-spacing: 2px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.8rem; margin-bottom: 5px; color: #8a9ab0; }
+        input, select, textarea { width: 100%; padding: 12px; background: #060a12; border: 1px solid #1e2d45; color: #fff; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #c9a84c; border: none; color: #060a12; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        button:hover { background: #e0bc5a; }
+        .footer { text-align: center; margin-top: 20px; font-size: 0.7rem; color: #3a4a5a; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>⚖️ Registro de Processo Judicial</h2>
+    
+    <div class="form-group">
+        <label>NOME DO RÉU / RG</label>
+        <input type="text" id="reu" placeholder="Ex: Johnny Santos | 1002">
+    </div>
+
+    <div class="form-group">
+        <label>CRIME IMPUTADO</label>
+        <input type="text" id="crime" placeholder="Ex: Art. 33 - Tráfico de Drogas">
+    </div>
+
+    <div class="form-group">
+        <label>STATUS DO PROCESSO</label>
+        <select id="status">
+            <option value="investigacao">Em Investigação</option>
+            <option value="aguardando_audiencia">Aguardando Audiência</option>
+            <option value="em_julgamento">Em Julgamento</option>
+            <option value="arquivado">Arquivado</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>JUIZ RESPONSÁVEL</label>
+        <input type="text" id="juiz" placeholder="Nome do Juiz">
+    </div>
+
+    <button onclick="salvarProcesso()">Registrar Processo nos Autos</button>
+    
+    <div class="footer">Sistema Oficial de Justiça - LS Roleplay</div>
+</div>
+
+<script>
+    async function salvarProcesso() {
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbySLVwYP25ysZfdIWQWOUuTeBPi7DRbJzlzo___gKQez-bTu93JeWxnN-DT1ufTTW622g/exec';
+        
+        const dados = {
+            id: 'PROC-' + Math.floor(Math.random() * 10000),
+            numero: '2024.' + Math.floor(Math.random() * 900),
+            reu: document.getElementById('reu').value,
+            crime: document.getElementById('crime').value,
+            status: document.getElementById('status').value,
+            juiz: document.getElementById('juiz').value
+        };
+
+        if(!dados.reu || !dados.crime) {
+            alert("Preencha o nome do Réu e o Crime!");
+            return;
+        }
+
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(dados)
+            });
+            alert("✅ Processo enviado para a Planilha do Google!");
+            // Limpa o formulário
+            document.getElementById('reu').value = '';
+            document.getElementById('crime').value = '';
+        } catch (error) {
+            console.error('Erro!', error.message);
+            alert("Erro ao salvar. Verifique a URL da API.");
+        }
+    }
+</script>
+
+</body>
+</html>
